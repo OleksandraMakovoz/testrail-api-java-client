@@ -26,7 +26,7 @@ package com.codepine.api.testrail.internal;
 
 import com.codepine.api.testrail.model.Field;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.junit.Test;
 
@@ -41,21 +41,21 @@ import static org.junit.Assert.assertEquals;
  */
 public class FieldModuleTest {
 
-    private static final ObjectMapper objectMapper = new ObjectMapper()
-            .setPropertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES)
-            .disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
-            .registerModules(new FieldModule());
+  private static final ObjectMapper objectMapper = new ObjectMapper()
+      .setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE)
+      .disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
+      .registerModules(new FieldModule());
 
-    @Test
-    public void W_stepFieldString_T_correctDeserializationAndStepsOptions() throws IOException {
-        // WHEN
-        Field actualField = objectMapper.readValue(this.getClass().getResourceAsStream("/step_field.json"), Field.class);
+  @Test
+  public void W_stepFieldString_T_correctDeserializationAndStepsOptions() throws IOException {
+    // WHEN
+    Field actualField = objectMapper.readValue(this.getClass().getResourceAsStream("/step_field.json"), Field.class);
 
-        // THEN
-        Field.Config.StepsOptions options = (Field.Config.StepsOptions) new Field.Config.StepsOptions().setFormat("markdown").setHasExpected(true).setRows(6).setRequired(false);
-        Field.Config.Context context = new Field.Config.Context().setGlobal(true).setProjectIds(Collections.<Integer>emptyList());
-        Field.Config config = new Field.Config().setId("47e68955-c7fc-4c01-8313-d9de6c4cad7c").setContext(context).setOptions(options);
-        Field expectedField = new Field().setId(4).setTypeId(10).setType(Field.Type.STEPS).setName("separated_steps").setSystemName("custom_separated_steps").setLabel("Separated Steps").setConfigs(Collections.singletonList(config)).setDisplayOrder(4);
-        assertEquals(expectedField, actualField);
-    }
+    // THEN
+    Field.Config.StepsOptions options = (Field.Config.StepsOptions) new Field.Config.StepsOptions().setFormat("markdown").setHasExpected(true).setRows(6).setRequired(false);
+    Field.Config.Context context = new Field.Config.Context().setGlobal(true).setProjectIds(Collections.<Integer>emptyList());
+    Field.Config config = new Field.Config().setId("47e68955-c7fc-4c01-8313-d9de6c4cad7c").setContext(context).setOptions(options);
+    Field expectedField = new Field().setId(4).setTypeId(10).setType(Field.Type.STEPS).setName("separated_steps").setSystemName("custom_separated_steps").setLabel("Separated Steps").setConfigs(Collections.singletonList(config)).setDisplayOrder(4);
+    assertEquals(expectedField, actualField);
+  }
 }

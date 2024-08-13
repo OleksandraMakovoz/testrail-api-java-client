@@ -29,11 +29,14 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import java.io.Serial;
+
 /**
  * Exception representing error returned by TestRail API.
  */
 public class TestRailException extends RuntimeException {
 
+    @Serial
     private static final long serialVersionUID = -2131644110724458502L;
 
     @Getter

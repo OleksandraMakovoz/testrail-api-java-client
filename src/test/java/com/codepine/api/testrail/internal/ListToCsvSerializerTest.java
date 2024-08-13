@@ -29,14 +29,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoInteractions;
 
 /**
  * Tests for {@link com.codepine.api.testrail.internal.ListToCsvSerializer}.
@@ -44,58 +44,58 @@ import static org.mockito.Mockito.verifyZeroInteractions;
 @RunWith(MockitoJUnitRunner.class)
 public class ListToCsvSerializerTest {
 
-    private ListToCsvSerializer listToCsvSerializer;
+  private ListToCsvSerializer listToCsvSerializer;
 
-    @Mock
-    private JsonGenerator jsonGenerator;
+  @Mock
+  private JsonGenerator jsonGenerator;
 
-    @Before
-    public void setUp() {
-        listToCsvSerializer = new ListToCsvSerializer();
-    }
+  @Before
+  public void setUp() {
+    listToCsvSerializer = new ListToCsvSerializer();
+  }
 
-    @Test
-    public void W_null_T_NoJson() throws IOException {
-        // WHEN
-        listToCsvSerializer.serialize(null, jsonGenerator, null);
+  @Test
+  public void W_null_T_NoJson() throws IOException {
+    // WHEN
+    listToCsvSerializer.serialize(null, jsonGenerator, null);
 
-        // THEN
-        verifyZeroInteractions(jsonGenerator);
-    }
+    // THEN
+    verifyNoInteractions(jsonGenerator);
+  }
 
-    @Test
-    public void W_empty_T_empty() throws IOException {
-        // WHEN
-        listToCsvSerializer.serialize(Collections.emptyList(), jsonGenerator, null);
+  @Test
+  public void W_empty_T_empty() throws IOException {
+    // WHEN
+    listToCsvSerializer.serialize(Collections.emptyList(), jsonGenerator, null);
 
-        // THEN
-        verify(jsonGenerator).writeString("");
-    }
+    // THEN
+    verify(jsonGenerator).writeString("");
+  }
 
-    @Test
-    public void W_singleElement_T_singleElement() throws IOException {
-        // WHEN
-        listToCsvSerializer.serialize(Collections.singletonList("a"), jsonGenerator, null);
+  @Test
+  public void W_singleElement_T_singleElement() throws IOException {
+    // WHEN
+    listToCsvSerializer.serialize(Collections.singletonList("a"), jsonGenerator, null);
 
-        // THEN
-        verify(jsonGenerator).writeString("a");
-    }
+    // THEN
+    verify(jsonGenerator).writeString("a");
+  }
 
-    @Test
-    public void W_threeStringElements_T_threeCommaSeparatedValues() throws IOException {
-        // WHEN
-        listToCsvSerializer.serialize(Arrays.asList("a", "b", "c"), jsonGenerator, null);
+  @Test
+  public void W_threeStringElements_T_threeCommaSeparatedValues() throws IOException {
+    // WHEN
+    listToCsvSerializer.serialize(Arrays.asList("a", "b", "c"), jsonGenerator, null);
 
-        // THEN
-        verify(jsonGenerator).writeString("a,b,c");
-    }
+    // THEN
+    verify(jsonGenerator).writeString("a,b,c");
+  }
 
-    @Test
-    public void W_threeIntegerElements_T_threeCommaSeparatedValues() throws IOException {
-        // WHEN
-        listToCsvSerializer.serialize(Arrays.asList(1, 2, 3), jsonGenerator, null);
+  @Test
+  public void W_threeIntegerElements_T_threeCommaSeparatedValues() throws IOException {
+    // WHEN
+    listToCsvSerializer.serialize(Arrays.asList(1, 2, 3), jsonGenerator, null);
 
-        // THEN
-        verify(jsonGenerator).writeString("1,2,3");
-    }
+    // THEN
+    verify(jsonGenerator).writeString("1,2,3");
+  }
 }

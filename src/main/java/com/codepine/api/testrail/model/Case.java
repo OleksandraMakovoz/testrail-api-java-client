@@ -95,7 +95,7 @@ public class Case {
     @JsonAnyGetter
     @JsonSerialize(keyUsing = CustomFieldSerializer.class)
     public Map<String, Object> getCustomFields() {
-        return MoreObjects.firstNonNull(customFields, Collections.<String, Object>emptyMap());
+        return MoreObjects.firstNonNull(customFields, Collections.emptyMap());
     }
 
     /**

@@ -76,7 +76,7 @@ public class Run {
     private int createdBy;
 
     @JsonProperty
-    @Getter(onMethod = @_({@JsonIgnore}))
+    @Getter(onMethod = @__({@JsonIgnore}))
     private boolean isCompleted;
 
     private Date completedOn;

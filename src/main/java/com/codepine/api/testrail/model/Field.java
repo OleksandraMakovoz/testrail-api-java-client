@@ -140,9 +140,9 @@ public class Field {
         public static class Options {
 
             @JsonProperty
-            @Getter(onMethod = @_({@JsonIgnore}))
+            @Getter(onMethod = @__({@JsonIgnore}))
             private boolean isRequired;
-            @Getter(value = AccessLevel.PRIVATE, onMethod = @_({@JsonAnyGetter}))
+            @Getter(value = AccessLevel.PRIVATE, onMethod = @__({@JsonAnyGetter}))
             @Setter(value = AccessLevel.NONE)
             private Map<String, Object> unknownFields;
 
@@ -289,7 +289,7 @@ public class Field {
         @Data
         public static class Context {
             @JsonProperty
-            @Getter(onMethod = @_({@JsonIgnore}))
+            @Getter(onMethod = @__({@JsonIgnore}))
             private boolean isGlobal;
             private List<Integer> projectIds;
         }

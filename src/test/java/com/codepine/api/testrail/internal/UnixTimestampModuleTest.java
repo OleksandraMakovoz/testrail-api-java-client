@@ -27,7 +27,7 @@ package com.codepine.api.testrail.internal;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.junit.Test;
 
@@ -43,7 +43,7 @@ import static org.junit.Assert.assertEquals;
 public class UnixTimestampModuleTest {
 
     private static final ObjectMapper objectMapper = new ObjectMapper()
-            .setPropertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES)
+            .setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE)
             .setSerializationInclusion(JsonInclude.Include.NON_NULL)
             .disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
             .registerModules(new UnixTimestampModule());

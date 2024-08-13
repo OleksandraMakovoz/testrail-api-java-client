@@ -39,6 +39,6 @@ public class User {
     private String email;
     private String name;
     @JsonProperty
-    @Getter(onMethod = @_({@JsonIgnore}))
+    @Getter(onMethod = @__({@JsonIgnore}))
     private boolean isActive;
 }

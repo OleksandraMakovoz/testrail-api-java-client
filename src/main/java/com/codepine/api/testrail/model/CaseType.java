@@ -38,7 +38,7 @@ public class CaseType {
     private int id;
     private String name;
     @JsonProperty
-    @Getter(onMethod = @_({@JsonIgnore}))
+    @Getter(onMethod = @__({@JsonIgnore}))
     private boolean isDefault;
 
 }

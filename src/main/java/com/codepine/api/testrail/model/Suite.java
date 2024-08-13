@@ -48,15 +48,15 @@ public class Suite {
     private int projectId;
 
     @JsonProperty
-    @Getter(onMethod = @_({@JsonIgnore}))
+    @Getter(onMethod = @__({@JsonIgnore}))
     private boolean isBaseline;
 
     @JsonProperty
-    @Getter(onMethod = @_({@JsonIgnore}))
+    @Getter(onMethod = @__({@JsonIgnore}))
     private boolean isCompleted;
 
     @JsonProperty
-    @Getter(onMethod = @_({@JsonIgnore}))
+    @Getter(onMethod = @__({@JsonIgnore}))
     private boolean isMaster;
 
     private String url;

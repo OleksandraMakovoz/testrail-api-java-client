@@ -41,7 +41,7 @@ public class PageDeserializer extends StdDeserializer<Page> {
         ArrayNode objects = (ArrayNode) node.get(field);
         List list = new ArrayList<>();
         ObjectMapper mapper = new ObjectMapper()
-            .setPropertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES)
+            .setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE)
             .configure(MapperFeature.DEFAULT_VIEW_INCLUSION, false)
             .setSerializationInclusion(JsonInclude.Include.NON_NULL)
             .disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)

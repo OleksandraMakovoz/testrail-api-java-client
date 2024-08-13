@@ -42,12 +42,12 @@ public class Status {
     private int colorMedium;
     private int colorBright;
     @JsonProperty
-    @Getter(onMethod = @_({@JsonIgnore}))
+    @Getter(onMethod = @__({@JsonIgnore}))
     private boolean isSystem;
     @JsonProperty
-    @Getter(onMethod = @_({@JsonIgnore}))
+    @Getter(onMethod = @__({@JsonIgnore}))
     private boolean isUntested;
     @JsonProperty
-    @Getter(onMethod = @_({@JsonIgnore}))
+    @Getter(onMethod = @__({@JsonIgnore}))
     private boolean isFinal;
 }

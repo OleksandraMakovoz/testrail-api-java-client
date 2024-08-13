@@ -40,7 +40,7 @@ public class Priority {
     private String shortName;
     private int priority;
     @JsonProperty
-    @Getter(onMethod = @_({@JsonIgnore}))
+    @Getter(onMethod = @__({@JsonIgnore}))
     private boolean isDefault;
 
 }

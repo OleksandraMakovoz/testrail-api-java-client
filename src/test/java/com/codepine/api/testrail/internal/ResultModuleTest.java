@@ -30,7 +30,7 @@ import com.codepine.api.testrail.model.Result;
 import com.codepine.api.testrail.model.ResultField;
 import com.fasterxml.jackson.databind.InjectableValues;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.junit.Test;
 
@@ -48,45 +48,45 @@ import static org.junit.Assert.assertEquals;
  */
 public class ResultModuleTest {
 
-    private static final ObjectMapper objectMapper = new ObjectMapper()
-            .setPropertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES)
-            .disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
-            .registerModules(new ResultModule(), new UnixTimestampModule());
+  private static final ObjectMapper objectMapper = new ObjectMapper()
+      .setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE)
+      .disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
+      .registerModules(new ResultModule(), new UnixTimestampModule());
 
-    @Test(expected = IllegalArgumentException.class)
-    public void G_noCustomResultFields_W_resultStringWithCustomStepResultsField_T_exception() throws IOException {
-        // GIVEN
-        List<CaseField> resultFields = Collections.emptyList();
+  @Test(expected = IllegalArgumentException.class)
+  public void G_noCustomResultFields_W_resultStringWithCustomStepResultsField_T_exception() throws IOException {
+    // GIVEN
+    List<CaseField> resultFields = Collections.emptyList();
 
-        // WHEN
-        objectMapper.reader(Result.class).with(new InjectableValues.Std().addValue(Result.class.toString(), resultFields)).readValue(this.getClass().getResourceAsStream("/result_with_step_result_field_set.json"));
-    }
+    // WHEN
+    objectMapper.reader(Result.class).with(new InjectableValues.Std().addValue(Result.class.toString(), resultFields)).readValue(this.getClass().getResourceAsStream("/result_with_step_result_field_set.json"));
+  }
 
-    @Test
-    public void G_noCustomResultFields_W_resultStringWithNoCustomResultsField_T_correctDeserialization() throws IOException {
-        // GIVEN
-        List<CaseField> resultFields = Collections.emptyList();
+  @Test
+  public void G_noCustomResultFields_W_resultStringWithNoCustomResultsField_T_correctDeserialization() throws IOException {
+    // GIVEN
+    List<CaseField> resultFields = Collections.emptyList();
 
-        // WHEN
-        Result actualResult = objectMapper.reader(Result.class).with(new InjectableValues.Std().addValue(Result.class.toString(), resultFields)).readValue(this.getClass().getResourceAsStream("/result_with_no_custom_fields.json"));
+    // WHEN
+    Result actualResult = objectMapper.reader(Result.class).with(new InjectableValues.Std().addValue(Result.class.toString(), resultFields)).readValue(this.getClass().getResourceAsStream("/result_with_no_custom_fields.json"));
 
-        // THEN
-        Result expectedResult = new Result().setId(11).setTestId(48).setStatusId(1).setCreatedBy(1).setCreatedOn(new Date(1425687075000L));
-        assertEquals(expectedResult, actualResult);
-    }
+    // THEN
+    Result expectedResult = new Result().setId(11).setTestId(48).setStatusId(1).setCreatedBy(1).setCreatedOn(new Date(1425687075000L));
+    assertEquals(expectedResult, actualResult);
+  }
 
-    @Test
-    public void G_customResultFieldStepResults_W_resultStringWithCustomStepResultsField_T_correctDeserializationAndStepResultsField() throws IOException {
-        // GIVEN
-        ResultField stepResultField = objectMapper.readValue(this.getClass().getResourceAsStream("/step_result_field.json"), ResultField.class);
-        List<ResultField> resultFields = Collections.singletonList(stepResultField);
+  @Test
+  public void G_customResultFieldStepResults_W_resultStringWithCustomStepResultsField_T_correctDeserializationAndStepResultsField() throws IOException {
+    // GIVEN
+    ResultField stepResultField = objectMapper.readValue(this.getClass().getResourceAsStream("/step_result_field.json"), ResultField.class);
+    List<ResultField> resultFields = Collections.singletonList(stepResultField);
 
-        // WHEN
-        Result actualResult = objectMapper.reader(Result.class).with(new InjectableValues.Std().addValue(Result.class.toString(), resultFields)).readValue(this.getClass().getResourceAsStream("/result_with_step_result_field_set.json"));
+    // WHEN
+    Result actualResult = objectMapper.reader(Result.class).with(new InjectableValues.Std().addValue(Result.class.toString(), resultFields)).readValue(this.getClass().getResourceAsStream("/result_with_step_result_field_set.json"));
 
-        // THEN
-        List<Field.StepResult> stepResults = Arrays.asList(new Field.StepResult().setContent("Step 1").setExpected("Expected 1").setActual("Expected 2").setStatusId(4), new Field.StepResult().setContent("Step 2").setExpected("Expected 2").setActual("Unexpected").setStatusId(3));
-        Result expectedResult = new Result().setId(11).setTestId(48).setStatusId(1).setCreatedBy(1).setCreatedOn(new Date(1425687075000L)).addCustomField("step_results", stepResults);
-        assertEquals(expectedResult, actualResult);
-    }
+    // THEN
+    List<Field.StepResult> stepResults = Arrays.asList(new Field.StepResult().setContent("Step 1").setExpected("Expected 1").setActual("Expected 2").setStatusId(4), new Field.StepResult().setContent("Step 2").setExpected("Expected 2").setActual("Unexpected").setStatusId(3));
+    Result expectedResult = new Result().setId(11).setTestId(48).setStatusId(1).setCreatedBy(1).setCreatedOn(new Date(1425687075000L)).addCustomField("step_results", stepResults);
+    assertEquals(expectedResult, actualResult);
+  }
 }
